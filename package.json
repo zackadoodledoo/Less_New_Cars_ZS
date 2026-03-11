@@ -1,0 +1,22 @@
+{
+  "name": "Less_New_Cars_ZS",
+  "version": "1.0.0",
+  "description": "Used Car Dealership",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "dev": "nodemon --env-file=.env server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.29.3",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
