@@ -71,6 +71,10 @@ app.get('/vehicles/browse', (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/vehicles/browse.html'));
 });
 
+app.get('/vehicles/details', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/vehicles/details.html'));
+});
+
 
 
 // Start the server and listen on the specified port
