@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Used Car Dealership",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "dev": "nodemon --env-file=.env server.js",
     "start": "node server.js",
@@ -14,9 +14,11 @@
   "license": "ISC",
   "packageManager": "pnpm@10.29.3",
   "dependencies": {
+    "ejs": "^5.0.1",
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "ws": "^8.19.0"
   }
 }

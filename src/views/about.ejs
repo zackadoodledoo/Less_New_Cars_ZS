@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Less New Autos | Home Page</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <h1>Less New Autos</h1>
+<%- include('partials/header') %>
+<main>
+    <h1>ABOUT US: Less New Autos</h1>
     <nav>
         <ul>
             <li><a href="/home">Home</a></li>
@@ -15,12 +8,12 @@
             <li><a href="/products">Products</a></li>
             <li><a href="/vehicles/browse">Browse Vehicles</a></li>
             <li><a href="/vehicles/details">Vehicle Details</a></li>
-            <li><a href="#">Log-In</a></li>
+            <li><a href="/src/views/logIn/login.html">Log-In</a></li>
             <li><a href="#">Leave A Review</a>
             <li><a href="#">Create</a>
             <li><a href="#"></a>
         </ul>
     </nav>
-    <p>Less New Autos Home Page</p>
-</body>
-</html>
+    <p>Less New Autos About Us Page</p>
+</main>
+<%- include('partials/footer') %>

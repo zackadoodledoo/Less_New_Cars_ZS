@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "make": "Toyota",
+    "model": "Camry",
+    "year": 2018,
+    "price": 15999,
+    "mileage": 64000,
+    "image": "/images/camry.jpg",
+    "description": "Reliable sedan with excellent fuel economy."
+  },
+  {
+    "id": 2,
+    "make": "Honda",
+    "model": "Civic",
+    "year": 2020,
+    "price": 18999,
+    "mileage": 32000,
+    "image": "/images/civic.jpg",
+    "description": "Sporty compact car with modern features."
+  }
+]
