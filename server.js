@@ -2,6 +2,7 @@
 /**
  * Declare Important Variables
  */
+import 'dotenv/config';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -14,6 +15,8 @@ import express from 'express';
 // Define the port number the server will listen on
 const NODE_ENV = process.env.NODE_ENV || 'production';
 const PORT = process.env.PORT || 3000;
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,8 +75,6 @@ app.set('views', path.join(__dirname, 'src/views'));
 // Set EJS as the template engine
 app.set('view engine', 'ejs');
 
-const name = process.env.NAME || 'World';
-
 
 /**
  * Declare Routes
@@ -85,14 +86,15 @@ const name = process.env.NAME || 'World';
  * Routes
  */
 
+app.get('/', (req, res) =>  res.redirect('/home'));
+
 app.get('/home', (req, res) => {
-    const title = 'Welcome Home';
-    res.render('home', { title });
+    res.render('home', { title: 'Welcome Home!' });
 });
 
 app.get('/about', (req, res) => {
     const title = 'About Less New Cars';
-    res.render('about', { title });
+    res.render('about', { title: 'About Less New Cars ' });
 });
 
 app.get('/products', (req, res) => {
@@ -102,21 +104,14 @@ app.get('/products', (req, res) => {
 
 app.get('/vehicles/browse', (req, res) => {
     const title = 'Browse Vehicles';
-    res.render('vehicles/browse', { title, vehicles });
+    res.render('vehicles/browse', { title: 'Browse Vehicles', vehicles });
 });
 
-
-app.get('/vehicles/details/:id', (req, res) => {
-    const vehicle = vehicles.find(v => v.id === parseInt(req.params.id));
-
-    if (!vehicle) {
-        return res.status(404).send('Vehicle not found');
-    }
-
-    res.render('vehicles/details', {        title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
-        vehicle,
-        vehicles // send the whole list too
-    });
+app.get('/vehicles/details/:id', (req, res, next) => {
+  const id = Number(req.params.id);
+  const vehicle = vehicles.find(v => v.id === id);
+  if (!vehicle) return next(Object.assign(new Error('Vehicle not found'), { status: 404 }));
+  res.render('vehicles/details', { title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`, vehicle, vehicles });
 });
 
 // Test route for 500 errors
