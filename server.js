@@ -10,6 +10,9 @@ import path from 'path';
 // Import express using ESM syntax
 import express from 'express';
 
+import indexRouter from './src/routes/index.js';
+import vehiclesRouter from './src/routes/vehicles.js';
+import authRouter from './src/routes/auth.js';
 
 //Import Variables
 // Define the port number the server will listen on
@@ -30,6 +33,13 @@ const vehicles = JSON.parse(
  */
 const app = express();
 
+
+app.set('views', path.join(__dirname, 'src', 'views'));
+app.set('view engine', 'ejs');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 /**
  * Configure Express middleware

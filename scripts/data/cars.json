@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": 2018,
+    "price": 12000,
+    "description": "Reliable compact sedan"
+  },
+  {
+    "id": 2,
+    "make": "Honda",
+    "model": "Civic",
+    "year": 2019,
+    "price": 13500,
+    "description": "Comfortable commuter"
+  },
+  {
+    "id": 3,
+    "make": "Subaru",
+    "model": "Outback",
+    "year": 2020,
+    "price": 22000,
+    "description": "Spacious and safe"
+  }
+]
