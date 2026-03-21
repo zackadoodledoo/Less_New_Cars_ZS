@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Basic Car Cover",
+    "price": 29.99,
+    "description": "Protects your vehicle from dust and light rain.",
+    "category": "car-cover",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "All-Weather Floor Mats",
+    "price": 79.99,
+    "description": "Durable rubber mats for all seasons.",
+    "category": "floor-mats",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Deluxe Seat Covers",
+    "price": 119.99,
+    "description": "Water-resistant seat covers with extra padding.",
+    "category": "seat-covers",
+    "available": false
+  },
+  {
+    "id": 4,
+    "name": "Leather Steering Wheel Cover",
+    "price": 24.99,
+    "description": "Comfort grip steering wheel cover, universal fit.",
+    "category": "steering-wheel-cover",
+    "available": true
+  },
+  {
+    "id": 5,
+    "name": "Heavy Duty Car Cover",
+    "price": 59.99,
+    "description": "All-season heavy duty cover for outdoor protection.",
+    "category": "car-cover",
+    "available": false
+  }
+]

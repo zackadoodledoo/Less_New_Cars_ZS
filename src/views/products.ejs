@@ -1,18 +1,137 @@
 <%- include('partials/header') %>
 <main>
-    <h1>Less New Autos: Autos</h1>
-    <p>We are currently awaiting the new shipment of vehicles... Come back soon</p>
-    <img src="https://i.ibb.co/ZzdMNsgJ/car-keys.jpg" alt="car keys" border="0"></a>
-    <nav>
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/products">Products</a></li>
-            <li><a href="./vehicles/browse">Browse Vehicles</a></li>
-            <li><a href="./vehicles/details.ejs">Vehicle Details</a></li>
-            <li><a href="#">Log In</a></li>
-        </ul>
-    </nav>
-    <p>Products Autos Here</p>
+  <h1>Products: Less New Autos</h1>
+  <h2>Look for the perfect accessories for your Less New Auto Today!</h2>
+  <img src="https://i.ibb.co/8FMVtLg/car-accessories.jpg" alt="Less New Auto car accessories image">
+
+  <% 
+    // Defensive fallbacks
+    const list = (typeof products !== 'undefined' && Array.isArray(products)) ? products : [];
+    const filtersSafe = (typeof filters !== 'undefined' && filters && typeof filters === 'object')
+      ? filters
+      : { categories: [], availability: '' };
+  %>
+
+  <form id="filters" class="product-filters" action="/products" method="get">
+    <fieldset>
+      <legend>Categories</legend>
+      <label>
+        <input type="checkbox" name="categories" value="seat-covers" <%= (filtersSafe.categories || []).includes('seat-covers') ? 'checked' : '' %>>
+        Seat Covers
+      </label>
+      <label>
+        <input type="checkbox" name="categories" value="floor-mats" <%= (filtersSafe.categories || []).includes('floor-mats') ? 'checked' : '' %>>
+        Rubber Floor Mats
+      </label>
+      <label>
+        <input type="checkbox" name="categories" value="steering-wheel-cover" <%= (filtersSafe.categories || []).includes('steering-wheel-cover') ? 'checked' : '' %>>
+        Steering Wheel Cover
+      </label>
+      <label>
+        <input type="checkbox" name="categories" value="car-cover" <%= (filtersSafe.categories || []).includes('car-cover') ? 'checked' : '' %>>
+        Car Cover
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Availability</legend>
+      <label><input type="radio" name="availability" value="" <%= (!filtersSafe.availability) ? 'checked' : '' %>> Any</label>
+      <label><input type="radio" name="availability" value="in" <%= filtersSafe.availability === 'in' ? 'checked' : '' %>> In Stock</label>
+      <label><input type="radio" name="availability" value="out" <%= filtersSafe.availability === 'out' ? 'checked' : '' %>> Out of Stock</label>
+    </fieldset>
+
+    <button type="submit">Apply Filters</button>
+    <button type="button" id="clear-filters">Clear</button>
+  </form>
+
+  <h3>Selling cars that are… technically not new. Not old either. Just… Less New.</h3>
+
+  <section id="products-section">
+    <% if (!list.length) { %>
+      <p><strong>No products found.</strong> Try clearing filters or check back later.</p>
+    <% } else { %>
+      <ul class="product-list">
+        <% list.forEach(p => { %>
+          <li>
+            <strong><%= p.name %></strong> — $<%= p.price %>
+            <p><%= p.description %></p>
+            <p><strong>Category</strong>: <%= p.category || 'Uncategorized' %> | <strong>Availability</strong>: <%= p.available ? 'In stock' : 'Out of stock' %></p>
+
+            <form class="inquiry-form" action="/products/inquire" method="post">
+              <input type="hidden" name="productId" value="<%= p.id %>">
+              <label>Your name
+                <input type="text" name="name" required value="<%= (typeof formData !== 'undefined' && formData.name) ? formData.name : '' %>">
+              </label>
+              <label>Email
+                <input type="email" name="email" required value="<%= (typeof formData !== 'undefined' && formData.email) ? formData.email : '' %>">
+              </label>
+              <label>Message
+                <textarea name="message" rows="3" required><%= (typeof formData !== 'undefined' && formData.message) ? formData.message : `I’m interested in ${p.name}. Please send details.` %></textarea>
+              </label>
+              <button type="submit">Send Inquiry</button>
+            </form>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
+
+  <nav>
+    <ul>
+      <li><a href="/home">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/products">Products</a></li>
+      <li><a href="/vehicles/browse">Browse Vehicles</a></li>
+      <li><a href="/vehicles/details">Vehicle Details</a></li>
+      <li><a href="/src/views/logIn/login.html">Log-In</a></li>
+    </ul>
+  </nav>
 </main>
+
+<script>
+  // Clear filters button
+  document.getElementById('clear-filters').addEventListener('click', () => {
+    const form = document.getElementById('filters');
+    form.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(i => i.checked = false);
+    const any = form.querySelector('input[name="availability"][value=""]');
+    if (any) any.checked = true;
+    form.submit();
+  });
+
+  // Optional: AJAX live filtering (enable if you add GET /products/json)
+  // To enable, remove the surrounding /* ... */ and ensure server exposes /products/json that accepts same query params.
+  /*
+  (function() {
+    const form = document.getElementById('filters');
+    form.addEventListener('change', async () => {
+      const fd = new FormData(form);
+      const params = new URLSearchParams();
+      for (const v of fd.getAll('categories')) params.append('categories', v);
+      const avail = fd.get('availability') || '';
+      if (avail) params.set('availability', avail);
+      const url = '/products/json?' + params.toString();
+      try {
+        const res = await fetch(url);
+        const items = await res.json();
+        const ul = document.querySelector('.product-list');
+        if (!ul) return;
+        ul.innerHTML = items.map(p => `
+          <li>
+            <strong>${escapeHtml(p.name)}</strong> — $${p.price}
+            <p>${escapeHtml(p.description)}</p>
+            <p><strong>Category</strong>: ${escapeHtml(p.category || 'Uncategorized')} | <strong>Availability</strong>: ${p.available ? 'In stock' : 'Out of stock'}</p>
+          </li>
+        `).join('');
+      } catch (err) {
+        console.error('Filter fetch failed', err);
+      }
+    });
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+  })();
+  */
+</script>
+
 <%- include('partials/footer') %>
