@@ -7,6 +7,6 @@ const router = express.Router();
 router.get('/', listVehicles);
 
 // GET /vehicles/:id  <-- route parameter
-router.get('/:id', showVehicle);
+router.get('details/:id', showVehicle);
 
 export default router;
